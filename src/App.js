@@ -85,6 +85,7 @@ const App = props => {
             name={props.profile.name.first}
             age={props.profile.dob.age}
             animation={props.animation}
+            position={props.profile.position}
             style={props.animation === '' ? 'opacity: 0' : ''}
           />  
         )}

@@ -10,16 +10,17 @@ export const fetchRandomUser = () => async dispatch => {
         payload: true
     });
 
-    await axios.get("https://randomuser.me/api/")
+    await axios.get("https://uifaces.co/api?random&limit=1&from_age=18&to_age=40&emotion[]=happiness", {headers: {'Cache-Control': 'no-cache', 'X-API-KEY': '__YOUR_API_KEY__'}})
     .then(res => {
-        const result = res.data.results[0];
+        const result = res.data[0];
 
         const profile = {
             picture: {
-                large: result.picture.large
+                large: result.photo
             },
-            name: { first: result.name.first },
-            dob: { age: result.dob.age }
+            name: { first: result.name.split(" ")[0] },
+            dob: { age: Math.round(20 + (20 * Math.random())) },
+            position: result.position
         };
 
         dispatch({
@@ -38,6 +39,8 @@ export const fetchRandomUser = () => async dispatch => {
         });
     })
     .catch(err => {
+        alert("Error loading data! Find more info info in the console.");
+        
         console.log(err);
     });
 }

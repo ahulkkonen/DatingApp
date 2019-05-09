@@ -26,7 +26,8 @@ const DateImage = styled.img`
     border-radius: 10px 10px 0 0;
 
     width: 100%;
-    height: 
+    height: 250px;
+    object-fit: cover;
 `
 
 const DateName = styled.h1`
@@ -51,13 +52,20 @@ const DateBusiness = styled.div`
     font-size: 12px;
 `
 
+const ImageWrapper = styled.div`
+    width: 100%;
+    height: 250px;
+
+    overflow: hidden;
+`
+
 const DateCard = props => {
     return (
         <Wrapper>
             <Card animation={props.animation}>
-                <DateImage src={props.imageUrl} />
+                <ImageWrapper><DateImage src={props.imageUrl} /></ImageWrapper>
                 <DateName>{props.name}, <DateAge>{props.age}</DateAge> </DateName>
-                <DateBusiness>Developer Trainee</DateBusiness>
+                <DateBusiness>{props.position}</DateBusiness>
             </Card>
         </Wrapper>
     )
