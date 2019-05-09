@@ -16,10 +16,10 @@ const Card = styled.div`
     -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
 
-    ${props => props.animation === 'love' ? '-webkit-animation: love 0.7s ease-out; animation: love 0.7s ease-out;' : ''}
-    ${props => props.animation === 'hate' ? '-webkit-animation: hate 0.7s ease-out; animation: hate 0.7s ease-out' : ''}
-    ${props => props.animation === 'fadeIn' ? '-webkit-animation: fadeIn 0.2s linear; animation: fadeIn 0.2s linear' : ''}
-    ${props => props.animation === 'fadeOut' ? '-webkit-animation: fadeOut 0s linear; animation: fadeOut 0s linear' : ''}
+    ${props => props.animation === 'love' ? '-webkit-animation: love 0.7s ease-out; animation: love 0.7s ease-out; animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;' : ''}
+    ${props => props.animation === 'hate' ? '-webkit-animation: hate 0.7s ease-out; animation: hate 0.7s ease-out; animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;' : ''}
+    ${props => props.animation === 'fadeIn' ? '-webkit-animation: fadeIn 0.2s linear; animation: fadeIn 0.2s linear; animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;' : ''}
+    ${props => props.animation === 'fadeOut' ? '-webkit-animation: fadeOut 0s linear; animation: fadeOut 0s linear; animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;' : ''}
 `
 
 const DateImage = styled.img`

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import styled, { createGlobalStyle } from "styled-components";
-import axios from 'axios';
-
+import React, { useState, useEffect } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
+import { connect } from 'react-redux';
 import TopBar from './components/TopBar';
 import DateCard from './components/DateCard';
 import Buttons from './components/Buttons';
 import Loading from './components/Loading';
+
+import {fetchRandomUser, swipeLeft, swipeRight} from './actions/'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -46,68 +47,68 @@ const PhoneDisplayWrapper = styled.div`
   overflow: hidden;
 `;
 
-const App = () => {
-  let [animation, setAnimation] = useState('');
-  let [id, setId] = useState(0);
-
-  const [users, setUsers] = useState([{
-    picture: {
-      large: 'https://randomuser.me/api/portraits/men/34.jpg'
-    },
-    name: {first: 'Pena'},
-    dob: {age: 50}
-  }]);
-
-  const cardStatus = "CENTER";
-  let [loading, setLoading] = useState(true);
-  
+const App = props => {
   useEffect(() => {
-    axios.get("https://randomuser.me/api/?results=100").then(res => {
-      const results = res.data.results;
-      
-      let usersArray = [];
-
-      usersArray = results.map((profile) => {
-        return {
-          picture: {
-            large: profile.picture.large
-          },
-          name: {first: profile.name.first},
-          dob: {age: profile.dob.age}
-        };
-      });
-
-      setUsers(usersArray);
-      setAnimation('fadeIn');
-      setLoading(false);
-    });
+    props.fetchRandomUser();
   }, []);
-  
+
+  const onAccept = () => {
+    if (props.loading) return;
+
+    props.swipeRight();
+    
+    setTimeout(() => {
+      props.fetchRandomUser();
+    }, 700);
+  }
+
+  const onDecline = () => {
+    if (props.loading) return;
+
+    props.swipeLeft();
+    
+    setTimeout(() => {
+      props.fetchRandomUser();
+    }, 700);
+  }
 
   return (
     <IPhoneBackground>
       <GlobalStyle />
       <PhoneDisplayWrapper>
         <TopBar />
-        {loading || users == null ? (
+        {props.loading || props.profile === null ? (
           <Loading />
         ) : (
           <DateCard
-            imageUrl={users[id].picture.large}
-            name={users[id].name.first}
-            age={users[id].dob.age}
-            cardStatus={cardStatus}
-            animation={animation}
-            style={animation === '' ? 'opacity: 0' : ''}
+            imageUrl={props.profile.picture.large}
+            name={props.profile.name.first}
+            age={props.profile.dob.age}
+            animation={props.animation}
+            style={props.animation === '' ? 'opacity: 0' : ''}
           />  
         )}
         <Buttons
-          onAccept={() => {setAnimation("love"); setTimeout(() => {setId(id + 1); setAnimation("fadeIn"); }, 700)}}
-          onDecline={() => {setAnimation("hate"); setTimeout(() => {setId(id + 1); setAnimation("fadeIn"); }, 700)}}
+          onAccept={onAccept}
+          onDecline={onDecline}
         />
       </PhoneDisplayWrapper>
     </IPhoneBackground>
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      profile: state.profile,
+      loading: state.loading,
+      animation: state.animation
+  };
+}
+
+const mapDispatchStateToProps = dispatch => ({
+  fetchRandomUser: () => dispatch(fetchRandomUser()),
+  swipeLeft: () => dispatch(swipeLeft()),
+  swipeRight: () => dispatch(swipeRight())
+});
+
+export default connect(mapStateToProps, mapDispatchStateToProps)(App);
