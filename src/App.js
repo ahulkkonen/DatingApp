@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 import TopBar from './components/TopBar';
@@ -59,7 +59,7 @@ const App = props => {
     
     setTimeout(() => {
       props.fetchRandomUser();
-    }, 700);
+    }, 500);
   }
 
   const onDecline = () => {
@@ -69,7 +69,7 @@ const App = props => {
     
     setTimeout(() => {
       props.fetchRandomUser();
-    }, 700);
+    }, 500);
   }
 
   return (
