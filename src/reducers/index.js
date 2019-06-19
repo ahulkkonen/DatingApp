@@ -1,5 +1,5 @@
 const initialState = {
-    profile: null,
+    property: null,
     loading: true,
     animation: ''
 };
@@ -8,10 +8,10 @@ const reducer = (state = initialState, action) => {
     const payload = action.payload;
 
     switch(action.type) {
-        case 'FETCH_USER':
+        case 'FETCH_PROPERTY':
           return {
             ...state,
-            profile: payload
+            property: payload
           };
         
         case 'SET_ANIMATION':

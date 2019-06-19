@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
+import axios from 'axios';
+
 import TopBar from './components/TopBar';
-import DateCard from './components/DateCard';
+import DateCard from './components/PropertyCard';
 import Buttons from './components/Buttons';
 import Loading from './components/Loading';
 
-import {fetchRandomUser, swipeLeft, swipeRight} from './actions/'
+import {fetchRandomProperty, swipeLeft, swipeRight} from './actions/'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -49,8 +51,14 @@ const PhoneDisplayWrapper = styled.div`
 
 const App = props => {
   useEffect(() => {
-    props.fetchRandomUser();
+    props.fetchRandomProperty();
   }, []);
+
+  const postUserSelection = selection => {
+    axios.post("", {
+      
+    })
+  }
 
   const onAccept = () => {
     if (props.loading) return;
@@ -58,7 +66,7 @@ const App = props => {
     props.swipeRight();
     
     setTimeout(() => {
-      props.fetchRandomUser();
+      props.fetchRandomProperty();
     }, 500);
   }
 
@@ -68,7 +76,7 @@ const App = props => {
     props.swipeLeft();
     
     setTimeout(() => {
-      props.fetchRandomUser();
+      props.fetchRandomProperty();
     }, 500);
   }
 
@@ -81,11 +89,11 @@ const App = props => {
           <Loading />
         ) : (
           <DateCard
-            imageUrl={props.profile.picture.large}
-            name={props.profile.name.first}
-            age={props.profile.dob.age}
+            imageUri={props.property.picture}
+            name=''
+            age=''
             animation={props.animation}
-            position={props.profile.position}
+            price={props.property.price}
             style={props.animation === '' ? 'opacity: 0' : ''}
           />  
         )}
@@ -100,14 +108,14 @@ const App = props => {
 
 const mapStateToProps = state => {
   return {
-      profile: state.profile,
+      property: state.property,
       loading: state.loading,
       animation: state.animation
   };
 }
 
 const mapDispatchStateToProps = dispatch => ({
-  fetchRandomUser: () => dispatch(fetchRandomUser()),
+  fetchRandomProperty: () => dispatch(fetchRandomProperty()),
   swipeLeft: () => dispatch(swipeLeft()),
   swipeRight: () => dispatch(swipeRight())
 });

@@ -5,25 +5,22 @@ const Wrapper = styled.div`
   height: 40px;
   background-color: white;
   
-  display: flex;
-  align-items: stretch;
   box-shadow: 0 2px 1px rgba(100, 100, 100, 0.5);
-  justify-content: center;
   z-index: 100;
   position: relative;
+
+  text-align: center;
 `
 
-const Logo = styled.span`
-    object-fit: contain;
-    font-size: 26px;
-    margin: 4px 0 0 0; padding: 0;
+const Logo = styled.img`
+    height: 28px;
+    margin-top: 6px;
 `
-
 
 const TopBar = props => {
     return (
         <Wrapper>
-            <Logo role="img" aria-label="flame">🔥DatingApp</Logo>
+            <Logo src="/logo.png" alt="" />
         </Wrapper>
     )
 }

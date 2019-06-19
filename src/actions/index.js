@@ -1,31 +1,37 @@
 import axios from 'axios';
 
-const FETCH_USER = 'FETCH_USER';
+const FETCH_PROPERTY = 'FETCH_PROPERTY';
 const SET_ANIMATION = 'SET_ANIMATION';
 const SET_LOADING = 'SET_LOADING';
 
-export const fetchRandomUser = () => async dispatch => {
+const API_ETUOVI_URL = 'https://3apfvpgw8k.execute-api.eu-west-1.amazonaws.com/prod/randomannouncements';
+
+const buildImageUri = (url, size = 512) => {
+    return 'https://' + url.replace('{imageParameters}', size.toString() + 'x');
+}
+
+export const fetchRandomProperty = () => async dispatch => {
     dispatch({
         type: SET_LOADING,
         payload: true
     });
 
-    await axios.get("https://uifaces.co/api?random&limit=1&from_age=18&to_age=40&emotion[]=happiness", {headers: {'Cache-Control': 'no-cache', 'X-API-KEY': '__YOUR_API_KEY__'}})
+    await axios.get(API_ETUOVI_URL)
     .then(res => {
-        const result = res.data[0];
+        const result = res.data.hits.hits[0];
 
-        const profile = {
-            picture: {
-                large: result.photo
-            },
-            name: { first: result.name.split(" ")[0] },
-            dob: { age: Math.round(20 + (20 * Math.random())) },
-            position: result.position
+        const property = {
+            id: result._source.id,
+            friendlyId: result._source.friendlyId,
+            picture: buildImageUri(result._source.mainImageUri, 512),
+            price: result._source.searchPrice,
+            propertyType: result._source.propertyType,
+            propertySubtype: result._source.propertyType
         };
 
         dispatch({
-            type: FETCH_USER,
-            payload: profile
+            type: FETCH_PROPERTY,
+            payload: property
         });
 
         dispatch({

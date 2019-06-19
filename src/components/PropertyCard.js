@@ -22,7 +22,7 @@ const Card = styled.div`
     ${props => props.animation === 'fadeOut' ? '-webkit-animation: fadeOut 0s linear; animation: fadeOut 0s linear; animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;' : ''}
 `
 
-const DateImage = styled.img`
+const PropertyImage = styled.img`
     border-radius: 10px 10px 0 0;
 
     width: 100%;
@@ -30,7 +30,7 @@ const DateImage = styled.img`
     object-fit: cover;
 `
 
-const DateName = styled.h1`
+const PropertyName = styled.h1`
     font-size: 20px;
 
     margin-left: 10px;
@@ -40,11 +40,11 @@ const DateName = styled.h1`
     text-transform: capitalize;
 `
 
-const DateAge = styled.span`
+const PropertyAge = styled.span`
     font-size: 18px;
 `
 
-const DateBusiness = styled.div`
+const PropertyDetails = styled.div`
     margin-left: 11px;
     margin-top: 0px;
     margin-bottom: 10px;
@@ -59,16 +59,20 @@ const ImageWrapper = styled.div`
     overflow: hidden;
 `
 
-const DateCard = props => {
+const formatPrice = price => {
+    return price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + " €"
+}
+
+const PropertyCard = props => {
     return (
         <Wrapper>
             <Card animation={props.animation}>
-                <ImageWrapper><DateImage src={props.imageUrl} /></ImageWrapper>
-                <DateName>{props.name}, <DateAge>{props.age}</DateAge> </DateName>
-                <DateBusiness>{props.position}</DateBusiness>
+                <ImageWrapper><PropertyImage src={props.imageUri} /></ImageWrapper>
+                <PropertyName>{props.name}, <PropertyAge>{props.age}</PropertyAge> </PropertyName>
+                <PropertyDetails>{formatPrice(props.price)}</PropertyDetails>
             </Card>
         </Wrapper>
     )
 }
 
-export default DateCard;
+export default PropertyCard;
