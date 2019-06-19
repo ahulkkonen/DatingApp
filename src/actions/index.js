@@ -6,7 +6,9 @@ const SET_LOADING = 'SET_LOADING';
 
 const API_ETUOVI_URL = 'https://3apfvpgw8k.execute-api.eu-west-1.amazonaws.com/prod/randomannouncements';
 
-const buildImageUri = (url, size = 512) => {
+const buildImageUri = (url, size = 250) => {
+    if (url === undefined) return '';
+
     return 'https://' + url.replace('{imageParameters}', size.toString() + 'x');
 }
 
@@ -26,7 +28,9 @@ export const fetchRandomProperty = () => async dispatch => {
             picture: buildImageUri(result._source.mainImageUri, 512),
             price: result._source.searchPrice,
             propertyType: result._source.propertyType,
-            propertySubtype: result._source.propertyType
+            propertySubtype: result._source.propertySubtype,
+            districtAndCity: result._source.districtAndCity,
+            streetAddress: result._source.streetAddress
         };
 
         dispatch({

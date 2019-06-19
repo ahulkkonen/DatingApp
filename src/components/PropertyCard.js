@@ -26,22 +26,27 @@ const PropertyImage = styled.img`
     border-radius: 10px 10px 0 0;
 
     width: 100%;
-    height: 250px;
+    height: 250px ;
     object-fit: cover;
 `
 
 const PropertyName = styled.h1`
-    font-size: 20px;
+    display: block;
+    overflow: hidden;
+
+    font-size: 18px;
 
     margin-left: 10px;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 3px;
 
     text-transform: capitalize;
+
+    font-weight: normal;
 `
 
-const PropertyAge = styled.span`
-    font-size: 18px;
+const PropertyLocation = styled.span`
+    font-size: 14px;
 `
 
 const PropertyDetails = styled.div`
@@ -60,7 +65,38 @@ const ImageWrapper = styled.div`
 `
 
 const formatPrice = price => {
+    if (price === undefined) return '0';
+
     return price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + " €"
+}
+
+const propertyTypeTranslations = {
+    'GARAGE': 'Autotalli',
+    'COTTAGE': 'Mökki',
+    'LEISURE_APARTMENT': 'Vapaa-ajan asunto',
+    'APARTMENT_HOUSE': 'Kerrostaloasunto',
+    'HOLIDAY_PLOT': 'Lomatontti',
+    'PARKING_SLOT': 'Parkkipaikka',
+    'HOUSE_PLOT': 'Tontti',
+    'OTHER_PLOT': 'Muu tontti',
+    'DETACHED_HOUSE': 'Talo',
+    'ROW_HOUSE': 'Rivitalo',
+    'SEPARATE_HOUSE': 'Talo',
+    'BALCONY_ACCESS_BLOCK': 'Parveke'
+}
+
+const formatPropertyType = propertySubtype => {
+    const translation = propertyTypeTranslations[propertySubtype];
+
+    if (translation !== undefined) {
+        return translation;
+    } else {
+        return propertySubtype;
+    }
+}
+
+const formatLocation = districtAndCity => {
+    return districtAndCity.split(',')[1];
 }
 
 const PropertyCard = props => {
@@ -68,8 +104,8 @@ const PropertyCard = props => {
         <Wrapper>
             <Card animation={props.animation}>
                 <ImageWrapper><PropertyImage src={props.imageUri} /></ImageWrapper>
-                <PropertyName>{props.name}, <PropertyAge>{props.age}</PropertyAge> </PropertyName>
-                <PropertyDetails>{formatPrice(props.price)}</PropertyDetails>
+                <PropertyName>{formatPropertyType(props.propertySubtype)}, <PropertyLocation>{formatLocation(props.districtAndCity)}</PropertyLocation> </PropertyName>
+                <PropertyDetails><strong>{props.streetAddress}</strong>, {formatPrice(props.price)}</PropertyDetails>
             </Card>
         </Wrapper>
     )

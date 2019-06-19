@@ -56,7 +56,7 @@ const App = props => {
 
   const postUserSelection = selection => {
     axios.post("", {
-      
+
     })
   }
 
@@ -94,6 +94,10 @@ const App = props => {
             age=''
             animation={props.animation}
             price={props.property.price}
+            propertyType={props.property.propertyType}
+            propertySubtype={props.property.propertySubtype}
+            districtAndCity={props.property.districtAndCity}
+            streetAddress={props.property.streetAddress}
             style={props.animation === '' ? 'opacity: 0' : ''}
           />  
         )}
